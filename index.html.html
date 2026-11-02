@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="aurora">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Let’s Build a Portfolio</title>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+:root,:root[data-theme=aurora]{--bg:#050b24;--card:rgba(14,24,72,.62);--tx:#eef3ff;--mu:#aab7ea;--ac:#a77bff;--ac2:#22e6ff;--bd:rgba(140,160,255,.28);color-scheme:dark}
+:root[data-theme=light]{--bg:#f7f8fc;--card:#fff;--tx:#1d2140;--mu:#6b7194;--ac:#6c5ce7;--ac2:#00b8d9;--bd:#e4e7f4;color-scheme:light}
+:root[data-theme=dark]{--bg:#0f1220;--card:#181c31;--tx:#eef0ff;--mu:#9aa0c6;--ac:#8b7cff;--ac2:#38e1ff;--bd:#272c4a;color-scheme:dark}
+:root[data-theme=sea]{--bg:#e6f7fb;--card:#fff;--tx:#05354a;--mu:#4d7a8c;--ac:#0891b2;--ac2:#14b8a6;--bd:#c4e8f0}
+:root[data-theme=sun]{--bg:#fff7e0;--card:#fffdf5;--tx:#4a2c00;--mu:#8a6a2f;--ac:#f59e0b;--ac2:#ef4444;--bd:#fde6a8}
+:root[data-theme=pink]{--bg:#fff0f6;--card:#fff;--tx:#4a1230;--mu:#9b5a7b;--ac:#ec4899;--ac2:#a855f7;--bd:#fbcfe8}
+:root[data-theme=moon]{--bg:#0b1026;--card:#141a3a;--tx:#e8ecff;--mu:#98a2d6;--ac:#c7d2fe;--ac2:#fde68a;--bd:#26305f;color-scheme:dark}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx);transition:background .3s,color .3s;line-height:1.55}
+button,input,textarea{font:inherit;color:inherit}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 20px;background:var(--card);border-bottom:1px solid var(--bd);position:sticky;top:env(safe-area-inset-top,0px);z-index:5;flex-wrap:wrap}
+.logo{font-weight:800;font-size:18px;background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer}
+.themes{display:flex;gap:6px;flex-wrap:wrap}
+.themes button{border:2px solid var(--bd);background:var(--bg);border-radius:20px;padding:4px 10px;cursor:pointer;font-size:13px}
+.themes button.on{border-color:var(--ac);background:var(--ac);color:#fff}
+.btn{border:0;border-radius:12px;padding:11px 20px;font-weight:700;cursor:pointer;background:linear-gradient(90deg,var(--ac),var(--ac2));color:#fff;text-decoration:none;display:inline-block;transition:transform .15s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;border:2px solid var(--ac);color:var(--ac)}
+.btn.sm{padding:6px 12px;font-size:13px;border-radius:9px}
+.btn.red{background:#e5484d}
+.hide{display:none!important}
+/* home */
+.hero{text-align:center;padding:70px 20px 30px;max-width:820px;margin:auto}
+.hero h1{font-size:clamp(34px,7vw,64px);line-height:1.1;margin:10px 0}
+.grad{background:linear-gradient(90deg,var(--ac),var(--ac2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--mu);font-size:18px}
+.float{font-size:60px;display:inline-block;animation:fl 3s ease-in-out infinite}
+@keyframes fl{50%{transform:translateY(-12px) rotate(6deg)}}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;max-width:1000px;margin:30px auto;padding:0 20px}
+.step,.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:0 6px 20px rgba(0,0,0,.05)}
+.step b{display:block;font-size:17px;margin:6px 0}.step span{font-size:30px}.step p{margin:0;color:var(--mu);font-size:14px}
+/* builder */
+.wrap{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:18px;padding:18px;max-width:1400px;margin:auto}
+@media(max-width:860px){.wrap{grid-template-columns:1fr}}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tabs button{border:1px solid var(--bd);background:var(--card);border-radius:10px;padding:6px 11px;cursor:pointer;font-size:13px}
+.tabs button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+label{display:block;font-size:13px;font-weight:600;margin:10px 0 4px}
+input,textarea{width:100%;padding:9px 11px;border-radius:10px;border:1px solid var(--bd);background:var(--bg)}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--bd)}
+.chip{display:inline-block;background:var(--bg);border:1px solid var(--ac);color:var(--ac);border-radius:20px;padding:3px 12px;margin:3px;font-size:14px}
+.chip.x{cursor:pointer}.chip.x:hover{background:var(--ac);color:#fff}
+.hint{color:var(--mu);font-size:13px}
+.check li{margin:6px 0}
+.pvbar{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
+.pvbar button{border:1px solid var(--bd);background:var(--card);border-radius:10px;padding:5px 11px;cursor:pointer;font-size:13px}
+.pvbar button.on{background:var(--ac2);color:#fff}
+/* preview */
+.pv{background:var(--card);border:1px solid var(--bd);border-radius:20px;overflow:hidden}
+.pv .top{padding:44px 26px;text-align:center;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 18%,var(--card)),color-mix(in srgb,var(--ac2) 18%,var(--card)))}
+.av{width:90px;height:90px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;font-size:34px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--ac),var(--ac2))}
+.pv h2{margin:4px 0;font-size:30px}.pv .role{color:var(--ac);font-weight:700}
+.pv section{padding:20px 26px}.pv h3{margin:0 0 10px;font-size:19px;border-left:4px solid var(--ac);padding-left:10px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.pc{border:1px solid var(--bd);border-radius:14px;padding:14px;background:var(--bg);transition:transform .2s}.pc:hover{transform:translateY(-4px)}
+.pc .em{font-size:30px}.pc p{margin:4px 0;color:var(--mu);font-size:14px}
+.pc a,.links a{color:var(--ac);font-weight:600;text-decoration:none}
+.links{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.links a{border:2px solid var(--ac);border-radius:20px;padding:5px 14px}
+.tl{border-left:3px solid var(--ac2);padding-left:14px;margin-left:6px}.tl div{margin-bottom:12px}.tl small{color:var(--ac2);font-weight:700}
+.q{font-style:italic}
+.t-split .top{text-align:left;display:flex;gap:18px;align-items:center;flex-wrap:wrap}.t-split .av{margin:0}
+.t-minimal .top{background:var(--card);border-bottom:1px solid var(--bd)}.t-minimal .pc{background:var(--card)}.t-minimal .av{border-radius:14px}
+.toast{position:fixed;bottom:calc(20px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:var(--ac);color:#fff;padding:9px 18px;border-radius:20px;opacity:0;transition:.3s;pointer-events:none;z-index:9}
+.toast.show{opacity:1}
+.bgfx{position:fixed;inset:0;z-index:-1;overflow:hidden;background:linear-gradient(160deg,#030a2b 0%,#0a1650 45%,#2a0f5e 100%);opacity:.3;transition:opacity .4s}
+:root[data-theme=aurora] .bgfx{opacity:1}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);will-change:transform}
+.b1{width:55vw;height:55vw;left:-12vw;top:-10vw;background:#1240d8;opacity:.75}
+.b2{width:50vw;height:50vw;right:-10vw;top:18vh;background:#7a2cf0;opacity:.7}
+.b3{width:42vw;height:42vw;left:25vw;bottom:-18vw;background:#00e5ff;opacity:.5}
+.fx{position:absolute;font-size:34px;opacity:.75}
+[data-d]{transition:transform .25s ease-out}
+@media(prefers-reduced-motion:reduce){[data-d]{transform:none!important;transition:none}}
+.card,.step,.pv,.nav,.chat{backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cb{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:58px;height:58px;border-radius:50%;border:0;font-size:28px;cursor:pointer;background:linear-gradient(135deg,var(--ac),var(--ac2));box-shadow:0 8px 24px rgba(0,229,255,.4);z-index:20;animation:pulse 2.5s infinite}
+@keyframes pulse{50%{box-shadow:0 8px 34px rgba(167,123,255,.85)}}
+.chat{position:fixed;right:18px;bottom:calc(88px + env(safe-area-inset-bottom,0px));width:min(370px,calc(100vw - 36px));height:min(520px,calc(100vh - 150px));background:var(--card);border:1px solid var(--bd);border-radius:20px;display:flex;flex-direction:column;z-index:20;overflow:hidden;box-shadow:0 16px 50px rgba(0,0,0,.35)}
+.ch{padding:12px 16px;font-weight:800;background:linear-gradient(90deg,var(--ac),var(--ac2));color:#fff;display:flex;justify-content:space-between}
+.ch span{cursor:pointer}
+#msgs{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:8px}
+.m{max-width:88%;padding:8px 12px;border-radius:14px;font-size:14px;white-space:pre-wrap}
+.m.bot{background:var(--bg);border:1px solid var(--bd)}
+.m.me{align-self:flex-end;background:var(--ac);color:#fff}
+#qs{padding:0 10px;display:flex;gap:6px;flex-wrap:wrap}
+#qs button{border:1px solid var(--ac);background:transparent;color:var(--ac);border-radius:16px;padding:3px 10px;font-size:12px;cursor:pointer}
+.cin{display:flex;gap:6px;padding:10px}
+.arr{position:fixed;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;border:1px solid var(--bd);background:var(--card);color:var(--ac2);font-size:24px;font-weight:800;cursor:pointer;z-index:15;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 6px 22px rgba(0,0,0,.3);transition:.2s}
+.arr:hover{background:linear-gradient(135deg,var(--ac),var(--ac2));color:#fff;width:60px}
+.arr small{position:absolute;top:100%;left:50%;transform:translateX(-50%);font-size:11px;color:var(--mu);margin-top:4px;white-space:nowrap}
+#prev{left:calc(10px + env(safe-area-inset-left,0px))}
+#next{right:calc(10px + env(safe-area-inset-right,0px))}
+.bgfx,:root[data-theme=aurora] .bgfx{opacity:1}
+.bgfx>*{animation:fin .9s}@keyframes fin{from{opacity:0}}
+.fx{font-size:38px}
+.fx b{display:block;font-weight:400;animation:bob 5s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-14px)}}
+@keyframes sway{50%{transform:translate(16px,-22px) rotate(10deg)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes tw{50%{opacity:.25;transform:scale(.75)}}
+@keyframes drift{50%{transform:translateX(30px)}}
+[data-theme=sea] .fx b,[data-theme=pink] .fx b{animation:sway 6s ease-in-out infinite}
+[data-theme=sun] .fx b{animation:spin 18s linear infinite}
+[data-theme=moon] .fx b,[data-theme=dark] .fx b{animation:tw 3s ease-in-out infinite}
+[data-theme=light] .fx b{animation:drift 8s ease-in-out infinite}
+</style>
+</head>
+<body>
+<div class="bgfx"><i class="blob b1" data-d=".2"></i><i class="blob b2" data-d=".5"></i><i class="blob b3" data-d=".35"></i><span class="fx" style="left:10%;top:24%" data-d="1">💎</span><span class="fx" style="right:12%;top:16%" data-d="-.8">✨</span><span class="fx" style="left:70%;top:62%" data-d="1.3">🌌</span><span class="fx" style="left:6%;top:70%" data-d="-1">🔷</span></div>
+<div class="nav">
+  <span class="logo" onclick="location.hash='home'">✨ PortfolioBuilder</span>
+  <div class="themes" id="themes"></div>
+</div>
+
+<!-- HOME -->
+<main id="home">
+  <div class="hero" data-d="-.12">
+    <div class="float">🚀</div>
+    <h1>Let’s build a <span class="grad">portfolio</span></h1>
+    <p>Show your skills, projects and achievements in one beautiful page. No coding needed. Just type, pick a colour theme and watch it come alive.</p>
+    <p><button class="btn" onclick="location.hash='build'">Start building →</button></p>
+  </div>
+  <div class="steps">
+    <div class="step"><span>✏️</span><b>1. Fill in your details</b><p>Name, bio, skills, email, GitHub and more.</p></div>
+    <div class="step"><span>🏆</span><b>2. Add your wins</b><p>Create, edit or delete projects and achievements any time.</p></div>
+    <div class="step"><span>🎨</span><b>3. Pick a mood</b><p>Light, dark, sea, sun, pink or moon, plus 3 layouts.</p></div>
+    <div class="step"><span>💬</span><b>4. Share proof</b><p>Add testimonials to build trust with employers.</p></div>
+  </div>
+</main>
+
+<!-- BUILDER -->
+<main id="build" class="hide">
+  <div class="wrap">
+    <div class="card" id="editor">
+      <div class="tabs" id="tabs"></div>
+      <div id="panel"></div>
+    </div>
+    <div>
+      <div class="pvbar"><b>Layout:</b><span id="tpls"></span></div>
+      <div class="pv t-classic" id="pv"></div>
+    </div>
+  </div>
+</main>
+<button class="arr hide" id="prev" onclick="location.hash='home'" aria-label="Back to the front page">←<small>Home</small></button>
+<button class="arr" id="next" onclick="location.hash='build'" aria-label="Go to the portfolio editor">→<small>Build</small></button>
+<button class="cb" id="cb" onclick="toggleChat()" aria-label="Open PortiBot assistant">🤖</button>
+<div class="chat hide" id="chat"><div class="ch">🤖 PortiBot · your AI helper <span onclick="toggleChat()">✕</span></div><div id="msgs"></div><div id="qs"></div><div class="cin"><input id="ci" placeholder="Ask me anything…" onkeydown="if(event.key=='Enter'){ask(this.value);this.value=''}"><button class="btn sm" onclick="ask($('#ci').value);$('#ci').value=''">Send</button></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY='pf-builder-v1';
+const THEMES=[['aurora','💎 Aurora'],['light','☀️ Light'],['dark','🌙 Dark'],['sea','🌊 Sea'],['sun','🌞 Sun'],['pink','🌸 Pink'],['moon','🌕 Moon']];
+const TPLS=[['classic','Classic'],['split','Split'],['minimal','Minimal']];
+const DEF={name:'Aarav Kumar',role:'Aspiring Web Developer',bio:'I love turning ideas into clean, friendly websites. Currently learning full-stack development and building projects every week.',email:'aarav@example.com',phone:'',location:'Chennai, India',github:'aarav-dev',linkedin:'',website:'',
+skills:['HTML','CSS','JavaScript','Git'],
+projects:[{emoji:'🛒',title:'Shopping Cart App',desc:'A responsive cart with add, remove and total price.',link:''}],
+ach:[{title:'Hackathon Finalist',date:'2026',desc:'Top 10 out of 200 teams.'}],
+tests:[{name:'Priya S.',role:'Mentor',text:'Fast learner with great attention to detail.'}],
+theme:'aurora',tpl:'classic'};
+let D;try{D=JSON.parse(localStorage.getItem(KEY))||structuredClone(DEF)}catch(e){D=structuredClone(DEF)}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const url=u=>/^https?:\/\//.test(u)?u:'https://'+u;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1600)}
+
+/* themes + layouts */
+function applyTheme(){document.documentElement.dataset.theme=D.theme;setFx();
+ $('#themes').innerHTML=THEMES.map(([k,l])=>`<button class="${D.theme==k?'on':''}" onclick="D.theme='${k}';save();applyTheme()">${l}</button>`).join('');
+ $('#tpls').innerHTML=TPLS.map(([k,l])=>`<button class="${D.tpl==k?'on':''}" onclick="D.tpl='${k}';save();pv();applyTheme()">${l}</button>`).join('');}
+
+/* preview */
+function pv(){
+ const ini=D.name.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()||'?';
+ const L=[];
+ if(D.github)L.push(`<a target="_blank" rel="noopener" href="https://github.com/${esc(D.github.replace(/^.*github.com\//,''))}">🐙 GitHub</a>`);
+ if(D.linkedin)L.push(`<a target="_blank" rel="noopener" href="${esc(url(D.linkedin))}">💼 LinkedIn</a>`);
+ if(D.website)L.push(`<a target="_blank" rel="noopener" href="${esc(url(D.website))}">🌐 Website</a>`);
+ if(D.email)L.push(`<a href="mailto:${esc(D.email)}">✉️ Email</a>`);
+ $('#pv').className='pv t-'+D.tpl;
+ $('#pv').innerHTML=`<div class="top"><div class="av">${esc(ini)}</div><div><h2>${esc(D.name)||'Your name'}</h2><div class="role">${esc(D.role)}</div><p>${esc(D.bio)}</p>${D.location?`<small>📍 ${esc(D.location)}</small>`:''}<div class="links">${L.join('')}</div></div></div>`
+ +(D.skills.length?`<section><h3>Skills</h3>${D.skills.map(s=>`<span class="chip">${esc(s)}</span>`).join('')}</section>`:'')
+ +(D.projects.length?`<section><h3>Projects</h3><div class="grid">${D.projects.map(p=>`<div class="pc"><div class="em">${esc(p.emoji)||'📁'}</div><b>${esc(p.title)}</b><p>${esc(p.desc)}</p>${p.link?`<a target="_blank" rel="noopener" href="${esc(url(p.link))}">View →</a>`:''}</div>`).join('')}</div></section>`:'')
+ +(D.ach.length?`<section><h3>Achievements &amp; Milestones</h3><div class="tl">${D.ach.map(a=>`<div><small>${esc(a.date)}</small><br><b>${esc(a.title)}</b><br><span class="hint">${esc(a.desc)}</span></div>`).join('')}</div></section>`:'')
+ +(D.tests.length?`<section><h3>Testimonials</h3><div class="grid">${D.tests.map(t=>`<div class="pc"><p class="q">“${esc(t.text)}”</p><b>${esc(t.name)}</b><br><small class="hint">${esc(t.role)}</small></div>`).join('')}</div></section>`:'')
+ +(D.phone||D.email?`<section><h3>Contact</h3><p>${D.email?'✉️ '+esc(D.email)+'<br>':''}${D.phone?'📞 '+esc(D.phone):''}</p></section>`:'');
+}
+
+/* editor */
+const TABS=[['profile','👤 Profile'],['skills','🛠 Skills'],['projects','📁 Projects'],['ach','🏆 Achievements'],['tests','💬 Testimonials'],['info','📋 What I need'],['share','💾 Save & Share']];
+const LISTS={
+ projects:{n:'Project',f:[['emoji','Icon (an emoji)'],['title','Title'],['desc','Description','t'],['link','Link (optional)']]},
+ ach:{n:'Achievement',f:[['title','Title'],['date','Year / date'],['desc','Details','t']]},
+ tests:{n:'Testimonial',f:[['name','Client / person name'],['role','Role / company'],['text','Their feedback','t']]}};
+let tab='profile',ed=-1;
+function tabs(){$('#tabs').innerHTML=TABS.map(([k,l])=>`<button class="${tab==k?'on':''}" onclick="tab='${k}';ed=-1;panel()">${l}</button>`).join('')}
+const F=[['name','Full name'],['role','Title / role'],['bio','About me (short bio)','t'],['email','Email ID'],['phone','Phone (optional)'],['location','Location'],['github','GitHub username'],['linkedin','LinkedIn link'],['website','Personal website']];
+function panel(){tabs();let h='';
+ if(tab=='profile'){h=F.map(([k,l,t])=>`<label>${l}</label>`+(t?`<textarea oninput="D.${k}=this.value;save();pv()">${esc(D[k])}</textarea>`:`<input value="${esc(D[k])}" oninput="D.${k}=this.value;save();pv()">`)).join('')+
+  `<p class="hint">🐙 Type only your GitHub username (like <i>octocat</i>). A GitHub button is added to your portfolio.</p><button class="btn ghost sm" onclick="if(confirm('Reset everything to the sample portfolio?')){D=structuredClone(DEF);save();applyTheme();pv();panel()}">Reset to sample</button>`}
+ else if(tab=='skills'){h=`<label>Add a skill (press Enter)</label><input id="sk" placeholder="e.g. React, Python, Design" onkeydown="if(event.key=='Enter'&&this.value.trim()){D.skills.push(this.value.trim());save();pv();panel();$('#sk').focus()}"><p class="hint">Click a skill to remove it.</p><div>${D.skills.map((s,i)=>`<span class="chip x" onclick="D.skills.splice(${i},1);save();pv();panel()">${esc(s)} ✕</span>`).join('')}</div>`}
+ else if(tab=='share'){h=sharePanel()}
+ else if(tab=='info'){h=`<h3>What a great portfolio needs</h3><ul class="check"><li>✅ Name, title and a short bio</li><li>✅ Email ID and contact details</li><li>✅ Skills (technical and soft)</li><li>✅ 3–6 best projects with a link</li><li>✅ Achievements, awards, certificates</li><li>✅ GitHub and LinkedIn links</li><li>✅ Testimonials from mentors or clients</li><li>✅ Your resume summary and education</li></ul><p class="hint">Fill each tab on the left. Your changes save automatically in this browser.</p>`}
+ else{const c=LISTS[tab],a=D[tab];
+  h=`<h3 style="margin:0">${c.n}s</h3>`+(a.length?a.map((x,i)=>`<div class="row"><span>${esc(x.title||x.name)}</span><span><button class="btn sm ghost" onclick="ed=${i};panel()">Edit</button> <button class="btn sm red" onclick="if(confirm('Delete this entry?')){D[tab].splice(${i},1);ed=-1;save();pv();panel();toast('Deleted')}">Delete</button></span></div>`).join(''):'<p class="hint">Nothing here yet.</p>')+
+  `<h3>${ed>=0?'Edit '+c.n:'Create new '+c.n}</h3>`+c.f.map(([k,l,t])=>{const v=ed>=0?a[ed][k]:'';return `<label>${l}</label>`+(t?`<textarea id="f_${k}">${esc(v)}</textarea>`:`<input id="f_${k}" value="${esc(v)}">`)}).join('')+
+  `<p><button class="btn sm" onclick="saveItem()">${ed>=0?'Save changes':'+ Add'}</button> ${ed>=0?'<button class="btn sm ghost" onclick="ed=-1;panel()">Cancel</button>':''}</p>`}
+ if(tab=='tests')h+=`<p><button class="btn" onclick="tab='share';panel()">🎉 Finish &amp; save</button></p>`;$('#panel').innerHTML=h}
+function saveItem(){const c=LISTS[tab],o={};c.f.forEach(([k])=>o[k]=$('#f_'+k).value.trim());
+ if(!Object.values(o).some(Boolean)){toast('Please fill something in');return}
+ ed>=0?D[tab][ed]=o:D[tab].push(o);toast(ed>=0?'Changes saved ✔':'Added ✔');ed=-1;save();pv();panel()}
+
+/* routing */
+function route(){const b=location.hash=='#build';$('#home').classList.toggle('hide',b);$('#build').classList.toggle('hide',!b);$('#prev').classList.toggle('hide',!b);$('#next').classList.toggle('hide',b);window.scrollTo(0,0)}
+addEventListener('keydown',e=>{if(/INPUT|TEXTAREA/.test(e.target.tagName))return;if(e.key=='ArrowRight')location.hash='build';if(e.key=='ArrowLeft')location.hash='home'});
+addEventListener('hashchange',route);
+/* parallax */
+let mx=0,my=0;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
+function par(){if(RM)return;document.querySelectorAll('[data-d]').forEach(el=>{const d=+el.dataset.d;el.style.transform=`translate3d(${mx*d*70}px,${my*d*70-scrollY*d*.4}px,0)`})}
+addEventListener('mousemove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;par()});
+addEventListener('scroll',par,{passive:true});
+
+/* AI chatbot */
+let SM=null,busy=false,hist=[];
+try{(window.claude?window.claude.use('sample'):Promise.resolve(null)).then(s=>{SM=s},()=>{})}catch(e){}
+const QS=['✍️ Improve my bio','💡 Project ideas','🎯 Skills for my role','🎨 Pick a theme','📋 What’s missing?'];
+function addMsg(t,c){const d=document.createElement('div');d.className='m '+c;d.textContent=t;$('#msgs').appendChild(d);$('#msgs').scrollTop=1e9;return d}
+function toggleChat(){const c=$('#chat');c.classList.toggle('hide');if(!c.classList.contains('hide')&&!$('#msgs').children.length){addMsg('Hi! I’m PortiBot 👋 I can write and polish your bio, suggest projects and skills, and tell you what’s missing from your portfolio. What would you like to do?','bot');$('#qs').innerHTML=QS.map(q=>`<button onclick="ask(this.textContent)">${q}</button>`).join('')}}
+function tip(q){q=q.toLowerCase();if(/bio|about/.test(q))return 'Try this formula: “I’m a [role] who loves [passion]. I’ve built [something], and I’m now learning [goal].” Keep it to 2–3 sentences.';if(/project/.test(q))return 'Good beginner projects: a to-do app, a weather app, a quiz game, or a personal blog. For each one, say the problem it solves and the tools you used.';if(/skill/.test(q))return 'List 6–10 skills: your main tools first (like HTML, CSS, JavaScript), then Git and one soft skill such as teamwork.';if(/theme|colo/.test(q))return 'Aurora and Moon feel creative and modern, Sea is calm and professional, Sun and Pink are friendly and bold.';return 'I can help with your bio, projects, skills, achievements, GitHub and themes. Try one of the buttons below!'}
+async function ask(q){q=(q||'').trim();if(busy||!q)return;busy=true;addMsg(q,'me');const b=addMsg('Thinking…','bot');let a;
+ if(!SM)a=tip(q);else{try{
+  const p=`You are PortiBot, a friendly assistant inside a beginner-friendly portfolio builder website. Help the user write and improve content (bio, project descriptions, achievements, skills), decide which sections to add, and pick a theme (aurora, light, dark, sea, sun, pink, moon) or layout (classic, split, minimal). Be warm and concrete, give text they can copy, keep replies under 120 words, and use plain text with no markdown. The user is on the “${tab}” tab. Their current portfolio data: ${JSON.stringify(D)}\n\nConversation so far:\n${hist.map(([r,t])=>r+': '+t).join('\n')}\nUser: ${q}\nPortiBot:`;
+  const r=await SM(p,{cache:false,onText:({text})=>{if(text){b.textContent=text;$('#msgs').scrollTop=1e9}}});a=r.text}
+  catch(e){a=e&&e.code=='rate_limited'?'I’m a little busy. Please try again in a moment.':tip(q)}}
+ b.textContent=a;hist.push(['User',q],['PortiBot',a]);hist=hist.slice(-8);busy=false;$('#msgs').scrollTop=1e9}
+
+/* theme-specific parallax scenery */
+const P=[[10,24,1],[85,16,-.8],[70,62,1.3],[6,70,-1],[45,84,.7]];
+const THEME_FX={
+ aurora:{bg:'linear-gradient(160deg,#030a2b,#0a1650 45%,#2a0f5e)',blobs:['#1240d8','#7a2cf0','#00e5ff'],emo:['💎','✨','🌌','🔷','🔮']},
+ light:{bg:'linear-gradient(160deg,#ffffff,#eef1ff 60%,#e3f6ff)',blobs:['#a5b4fc','#c4b5fd','#bae6fd'],emo:['☁️','📘','💡','🌤️','✏️']},
+ dark:{bg:'linear-gradient(160deg,#05060d,#10132a)',blobs:['#312e81','#4c1d95','#0e7490'],emo:['🌑','💻','⭐','⌨️','🛰️']},
+ sea:{bg:'linear-gradient(180deg,#d9f4fb,#7fd6e6 70%,#2aa7c0)',blobs:['#22d3ee','#14b8a6','#38bdf8'],emo:['🐠','🌊','🐚','🫧','🐙']},
+ sun:{bg:'linear-gradient(180deg,#fff3c4,#ffd36b 60%,#ff9f43)',blobs:['#fbbf24','#fb923c','#f87171'],emo:['☀️','🌻','🌴','🔆','🍊']},
+ pink:{bg:'linear-gradient(160deg,#fff0f6,#ffc9e0 60%,#e9b6ff)',blobs:['#f472b6','#c084fc','#fda4af'],emo:['🌸','💖','🦋','🎀','🌷']},
+ moon:{bg:'linear-gradient(180deg,#050816,#0b1026 55%,#1c2260)',blobs:['#4338ca','#fde68a','#6366f1'],emo:['🌕','⭐','🌙','🪐','☄️']}};
+function setFx(){const g=$('.bgfx'),t=THEME_FX[D.theme]||THEME_FX.aurora;if(g.dataset.t==D.theme)return;g.dataset.t=D.theme;g.style.background=t.bg;
+ g.innerHTML=t.blobs.map((c,i)=>`<i class="blob b${i+1}" data-d="${[.2,.5,.35][i]}" style="background:${c}"></i>`).join('')+t.emo.map((e,i)=>`<span class="fx" style="left:${P[i][0]}%;top:${P[i][1]}%" data-d="${P[i][2]}"><b style="animation-delay:${-i*1.3}s">${e}</b></span>`).join('');par()}
+
+/* save & share */
+const fname=()=>((D.name||'my').trim().toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'')||'my')+'-portfolio.html';
+const summary=()=>`${D.name} – ${D.role}\n${D.bio}\nSkills: ${D.skills.join(', ')}\n`+(D.github?'GitHub: https://github.com/'+D.github.replace(/^.*github.com\//,'')+'\n':'')+(D.email?'Email: '+D.email:'');
+function siteHTML(){const css=document.querySelector('style').textContent;
+ return `<!DOCTYPE html><html lang="en" data-theme="${D.theme}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(D.name)} – Portfolio</title><style>${css}\n.site{max-width:920px;margin:0 auto;padding:30px 16px 60px}</style></head><body>${$('.bgfx').outerHTML}<div class="site"><div class="${$('#pv').className}">${$('#pv').innerHTML}</div></div><script>let mx=0,my=0;const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;${par.toString()}\naddEventListener('mousemove',e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;par()});addEventListener('scroll',par,{passive:true});par();<\/script></body></html>`}
+async function saveFile(name,data){
+ if(!window.claude){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([data]));a.download=name;document.body.appendChild(a);a.click();a.remove();toast('Saved ✔');return}
+ try{const d=await window.claude.use('downloads');if(!d){toast('Saving isn’t available here');return}await d.save({filename:name,data});toast('Saved ✔')}catch(e){toast(e&&e.code=='declined'?'Save cancelled':'Could not save the file')}}
+const dlSite=()=>saveFile(fname(),siteHTML());
+const dlJSON=()=>saveFile('portfolio-backup.json',JSON.stringify(D,null,2));
+async function copySum(){try{await navigator.clipboard.writeText(summary());toast('Text copied ✔')}catch(e){toast('Copy isn’t available here')}}
+async function shareSite(){const f=new File([siteHTML()],fname(),{type:'text/html'});
+ try{if(navigator.canShare&&navigator.canShare({files:[f]})){await navigator.share({title:D.name+' – Portfolio',text:summary(),files:[f]});return}}catch(e){if(e&&e.name=='AbortError')return}
+ await copySum();toast('Text copied. Download the file and attach it when you send it.')}
+function importJSON(f){if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||typeof o!='object'||(!o.name&&!o.skills))throw 0;D=Object.assign(structuredClone(DEF),o);['skills','projects','ach','tests'].forEach(k=>{if(!Array.isArray(D[k]))D[k]=[]});if(!THEME_FX[D.theme])D.theme='aurora';save();applyTheme();pv();panel();toast('Backup loaded ✔')}catch(e){toast('That file isn’t a portfolio backup')}};r.readAsText(f)}
+function sharePanel(){return `<h3>🎉 Your portfolio is ready!</h3>
+<div class="step"><b>1. Save it on your computer</b><p>Download a ready-to-open website file. Double-click it to view it in any browser, in the theme you picked.</p><p><button class="btn sm" onclick="dlSite()">⬇️ Download portfolio (.html)</button></p></div>
+<div class="step" style="margin-top:10px"><b>2. Send it to others</b><p>Share the file on WhatsApp, email or any app. For a public link, upload it as index.html to GitHub Pages or Netlify Drop.</p><p><button class="btn sm" onclick="shareSite()">📤 Share</button> <a class="btn sm ghost" target="_blank" rel="noopener" href="mailto:?subject=${encodeURIComponent(D.name+' – Portfolio')}&body=${encodeURIComponent(summary())}">✉️ Email</a> <button class="btn sm ghost" onclick="copySum()">📋 Copy text</button></p></div>
+<div class="step" style="margin-top:10px"><b>3. Keep a backup to edit later</b><p>Save your project data, then load it back any time.</p><p><button class="btn sm ghost" onclick="dlJSON()">💾 Save backup (.json)</button></p><label>Load a backup</label><input type="file" accept=".json,application/json" onchange="importJSON(this.files[0])"></div>`}
+
+applyTheme();pv();panel();route();par();
+</script>
+</body>
+</html>
